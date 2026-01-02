@@ -1,50 +1,80 @@
-# Welcome to your Expo app 👋
+# Post Office Finder BD
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile application for finding post office locations and details across Bangladesh. Users can search for post offices by postal code to get detailed information about locations, coordinates, and other relevant details.
 
-## Get started
+## Features
+
+- Search post offices by postal code
+- View detailed location information including coordinates
+- User profile management with avatar upload
+- About section with app information
+- Clean and intuitive user interface
+- Real-time data fetching from postal code API
+
+## Tech Stack
+
+- React Native with Expo
+- TypeScript / JavaScript
+- NativeWind for styling (Tailwind CSS)
+- Expo Router for navigation
+- Axios for HTTP requests
+- React Native Reanimated for smooth animations
+
+## Project Structure
+
+```
+app/
+├── _layout.jsx              # Root layout
+├── (tabs)/                  # Tab navigation group
+│   ├── _layout.jsx          # Tab layout configuration
+│   ├── index.jsx            # Home screen - postal code search
+│   ├── profile.jsx          # Profile screen - user management
+│   └── about.jsx            # About screen
+├── components/              # Reusable components
+│   └── Loading.jsx          # Loading spinner component
+├── services/                # API services
+│   └── api.js               # HTTP client configuration
+└── global.css               # Global styles
+```
+
+## Installation
 
 1. Install dependencies
-
    ```bash
    npm install
    ```
 
-2. Start the app
-
+2. Start the development server
    ```bash
-   npx expo start
+   npm start
    ```
 
-In the output, you'll find options to open the app in a
+3. Open the app using one of these options:
+   - Scan the QR code with Expo Go app
+   - Press 'a' for Android emulator
+   - Press 'i' for iOS simulator
+   - Press 'w' for web browser
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## API Integration
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+The app uses the Zippopotam.us API to fetch post office data for Bangladesh. The API endpoint is configured in `app/services/api.js`.
 
-## Get a fresh project
+Example usage:
+- Search postal code "10000" to get post offices in Dhaka area
+- Returns location names, coordinates, and region details
 
-When you're ready, run:
+## Available Scripts
 
-```bash
-npm run reset-project
-```
+- `npm start` - Start development server
+- `npm run android` - Run on Android emulator
+- `npm run ios` - Run on iOS simulator
+- `npm run web` - Run in web browser
+- `npm run lint` - Run ESLint
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Development
 
-## Learn more
+This project uses file-based routing with Expo Router. Edit files in the `app/` directory and changes will automatically reload on your device.
 
-To learn more about developing your project with Expo, look at the following resources:
+## License
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+MIT
