@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import {
+    ImageBackground,
+    Pressable,
+    ScrollView,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
+
 import LoadingComponent from "../components/Loading";
 import httpRequest from "../services/api";
 
@@ -44,6 +52,7 @@ const HomeScreen = () => {
       }, 1000);
     }
   };
+  const mapImgUrl = require("../../assets/images/bdMap.png");
 
   const handleInputChange = (value) => {
     if (/^\d*$/.test(value)) {
@@ -63,21 +72,16 @@ const HomeScreen = () => {
       className="flex-1 bg-slate-50"
     >
       {/* Header - Postal Theme */}
-      <View className="bg-blue-900 pt-12 pb-8 px-6 rounded-b-3xl shadow-lg">
-        <View className="flex-row items-center justify-center mb-2">
-          <View className="bg-red-600 w-12 h-12 rounded-full items-center justify-center mr-3">
-            <Text className="text-white text-2xl font-bold">✉</Text>
-          </View>
-          <Text className="text-white text-3xl font-bold">
-            Post Office Finder
-          </Text>
-        </View>
-        <Text className="text-blue-200 text-center text-sm">
+      <View className="bg-green-800   pt-12 pb-8 px-6 rounded-b-3xl shadow-4xl shadow-black/20">
+        <Text className="text-white text-3xl font-bold text-center">
+          Post Office Finder
+        </Text>
+        <Text className="text-gray-100 text-center text-sm">
           Search by postal code
         </Text>
       </View>
 
-      <View className="px-6">
+      <View className="px-5">
         {/* Search Card */}
         <View className="bg-white rounded-2xl p-6 shadow-lg -mt-6 border-l-4 border-red-600">
           <Text className="text-gray-700 font-semibold mb-3">
@@ -103,29 +107,60 @@ const HomeScreen = () => {
 
         {/* Initial State */}
         {isInitial && (
-          <View className="mt-8 bg-blue-50 rounded-2xl p-8 border-2 border-blue-200">
-            <View className="items-center mb-4">
-              <View className="bg-blue-600 w-16 h-16 rounded-full items-center justify-center">
-                <Text className="text-white text-3xl">📮</Text>
+          <View className="mt-8 ">
+            {/* Map Image with overlay */}
+            <ImageBackground
+              source={mapImgUrl}
+              className="w-full h-64 rounded-3xl bg-black/40 object-contain overflow-hidden"
+              resizeMode="cover"
+            >
+              {/* Semi-transparent overlay */}
+              <View className="absolute inset-0 bg-black/40" />
+
+              {/* Content on top of map */}
+              <View className="flex-1 justify-center items-center p-4">
+                <View className="bg-white/90 w-20 h-20 rounded-full items-center justify-center mb-4 shadow-lg">
+                  <Text className="text-4xl">📮</Text>
+                </View>
+
+                <Text className="text-white text-2xl font-bold mb-2  w-full text-nowrap text-center">
+                  Welcome to Post Office Finder
+                </Text>
+                <Text className="text-blue-100 text-center text-base leading-6">
+                  Enter a postal code above to find detailed information about
+                  post offices and locations in your area.
+                </Text>
+              </View>
+            </ImageBackground>
+
+            {/* Bottom Info Cards */}
+            <View className="flex-row gap-3 mt-4">
+              <View className="flex-1 bg-white rounded-xl p-4 shadow-sm border-l-4 border-blue-500">
+                <Text className="text-2xl mb-1"></Text>
+                <Text className="text-gray-800 font-semibold text-xs">
+                  Quick Search
+                </Text>
+              </View>
+              <View className="flex-1 bg-white rounded-xl p-4 shadow-sm border-l-4 border-green-500">
+                <Text className="text-2xl mb-1"></Text>
+                <Text className="text-gray-800 font-semibold text-xs">
+                  Accurate Data
+                </Text>
+              </View>
+              <View className="flex-1 bg-white rounded-xl p-4 shadow-sm border-l-4 border-red-500">
+                <Text className="text-2xl mb-1"></Text>
+                <Text className="text-gray-800 font-semibold text-xs">
+                  Instant Results
+                </Text>
               </View>
             </View>
-            <Text className="text-xl font-bold text-blue-900 mb-2 text-center">
-              Welcome to Post Office Finder
-            </Text>
-            <Text className="text-blue-700 text-center leading-6">
-              Enter a postal code above to find detailed information about post
-              offices and locations in your area.
-            </Text>
           </View>
         )}
 
         {/* Error State */}
         {error && !isInitial && (
           <View className="mt-6 bg-red-50 border-2 border-red-300 rounded-xl p-5">
-            <View className="flex-row items-center">
-              <Text className="text-red-600 text-2xl mr-3">⚠️</Text>
-              <Text className="text-red-700 font-medium flex-1">{error}</Text>
-            </View>
+            <Text className="text-red-700 font-medium">{error}</Text>
           </View>
         )}
 
@@ -133,9 +168,9 @@ const HomeScreen = () => {
         {postOfficeData && (
           <View className="mt-6 mb-8">
             {/* Header Card */}
-            <View className="bg-gradient-to-r from-blue-900 to-blue-700 text-black rounded-t-2xl p-6">
+            <View className="bg-gradient-to-r from-green-900 to-green-700 text-black rounded-t-2xl p-6">
               <Text className="text-black text-2xl font-bold mb-2">
-                📬 {postOfficeData["post code"]}
+                {postOfficeData["post code"]}
               </Text>
               <View className="flex-row items-center">
                 <View className="bg-white/20 rounded-lg px-3 py-1">
@@ -152,7 +187,7 @@ const HomeScreen = () => {
             {/* Places List */}
             <View className="bg-white rounded-b-2xl shadow-lg p-4">
               <Text className="text-lg font-bold text-gray-800 mb-4 px-2">
-                📍 Locations{" "}
+                Locations{" "}
                 <Text className="text-green-700">
                   ({postOfficeData?.places?.length || 0})
                 </Text>
@@ -178,7 +213,7 @@ const HomeScreen = () => {
 
                     <View className="bg-white rounded-lg p-3">
                       <Text className="text-gray-600 text-sm mb-1">
-                        📍 Coordinates
+                        Coordinates
                       </Text>
                       <Text className="text-gray-800 font-mono text-xs">
                         Lat: {place.latitude}

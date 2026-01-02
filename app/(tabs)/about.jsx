@@ -19,17 +19,14 @@ const AboutDeveloperScreen = () => {
   const socialLinks = [
     {
       platform: "GitHub",
-      icon: "💻",
       url: "https://github.com/AbdurRahman-202416",
     },
     {
       platform: "LinkedIn",
-      icon: "💼",
       url: "https://linkedin.com/in/abdurrahman",
     },
     {
       platform: "Email",
-      icon: "📧",
       url: "mailto:abdurrahman@example.com",
     },
   ];
@@ -47,11 +44,11 @@ const AboutDeveloperScreen = () => {
             {PROFILE_IMAGE ? (
               <Image
                 source={PROFILE_IMAGE}
-                className="w-full h-full"
+                className="w-full h-full object-cover"
                 resizeMode="cover"
               />
             ) : (
-              <Text className="text-4xl">👤</Text>
+              <Text className="text-4xl text-gray-400">User</Text>
             )}
           </View>
 
@@ -60,7 +57,7 @@ const AboutDeveloperScreen = () => {
           </Text>
           <Text className="text-blue-200 text-sm">Software Developer</Text>
           <Text className="text-blue-300 text-sm mt-1">
-            📍 Dhaka, Bangladesh
+            Dhaka, Bangladesh
           </Text>
         </View>
       </View>
@@ -70,7 +67,7 @@ const AboutDeveloperScreen = () => {
 
         {/* Skills */}
         <View className="bg-white rounded-xl p-6 shadow-sm mb-4">
-          <Text className="font-bold text-gray-900 mb-3">💻 Skills</Text>
+          <Text className="font-bold text-gray-900 mb-3">Skills</Text>
           <Text className="text-gray-700 leading-6">
             React • Next.js • TypeScript • React Native • TanStack Query •
             Zustand • Tailwind CSS • Node.js • WebAuthn
@@ -81,14 +78,13 @@ const AboutDeveloperScreen = () => {
 
         {/* Connect */}
         <View className="bg-white rounded-xl p-6 shadow-sm mb-6">
-          <Text className="font-bold text-gray-900 mb-4">🔗 Connect</Text>
+          <Text className="font-bold text-gray-900 mb-4">Connect</Text>
           {socialLinks.map((link, index) => (
             <Pressable
               key={index}
               onPress={() => handleLinkPress(link.url)}
               className="flex-row items-center py-3 border-b border-gray-100 active:bg-gray-50"
             >
-              <Text className="text-xl mr-3">{link.icon}</Text>
               <Text className="text-gray-800 font-medium">{link.platform}</Text>
             </Pressable>
           ))}
@@ -96,7 +92,7 @@ const AboutDeveloperScreen = () => {
 
         {/* Footer */}
         <Text className="text-gray-500 text-center text-sm mb-6">
-          Made with ❤️ by Abdur Rahman
+          Made by Abdur Rahman
         </Text>
       </View>
     </ScrollView>

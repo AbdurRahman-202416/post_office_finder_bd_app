@@ -70,7 +70,7 @@ export default function ProfileScreen() {
                   onPress={pickImage}
                   className="absolute bottom-0 right-0 bg-green-600 w-10 h-10 rounded-full items-center justify-center shadow-lg"
                 >
-                  <Text className="text-white text-lg">📷</Text>
+                  <Text className="text-white text-lg">+</Text>
                 </Pressable>
               </View>
 
@@ -80,7 +80,7 @@ export default function ProfileScreen() {
               <Text className="text-blue-600 font-semibold mt-1">
                 Software Developer
               </Text>
-              <Text className="text-gray-500 text-sm mt-1">📍 {location}</Text>
+              <Text className="text-gray-500 text-sm mt-1">{location}</Text>
             </View>
 
             {/* Edit Button */}
@@ -89,7 +89,7 @@ export default function ProfileScreen() {
               className="bg-green-800  py-4 rounded-2xl items-center shadow-md active:opacity-80"
             >
               <Text className="text-white font-bold text-base">
-                ✏️ Edit Profile
+                Edit Profile
               </Text>
             </Pressable>
           </View>
@@ -97,14 +97,11 @@ export default function ProfileScreen() {
           {/* Contact Information */}
           <View className="bg-white rounded-3xl shadow-lg p-6 mt-6">
             <Text className="text-lg font-bold text-gray-900 mb-4">
-              📋 Contact Information
+              Contact Information
             </Text>
 
             <View className="space-y-4">
               <View className="flex-row items-center bg-gray-50 rounded-xl p-4">
-                <View className="bg-blue-100 w-10 h-10 rounded-full items-center justify-center mr-3">
-                  <Text className="text-lg">📧</Text>
-                </View>
                 <View className="flex-1">
                   <Text className="text-gray-500 text-xs">Email</Text>
                   <Text className="text-gray-900 font-semibold">{email}</Text>
@@ -112,9 +109,6 @@ export default function ProfileScreen() {
               </View>
 
               <View className="flex-row items-center bg-gray-50 rounded-xl p-4">
-                <View className="bg-green-100 w-10 h-10 rounded-full items-center justify-center mr-3">
-                  <Text className="text-lg">📱</Text>
-                </View>
                 <View className="flex-1">
                   <Text className="text-gray-500 text-xs">Phone</Text>
                   <Text className="text-gray-900 font-semibold">{phone}</Text>
@@ -122,9 +116,6 @@ export default function ProfileScreen() {
               </View>
 
               <View className="flex-row items-center bg-gray-50 rounded-xl p-4">
-                <View className="bg-purple-100 w-10 h-10 rounded-full items-center justify-center mr-3">
-                  <Text className="text-lg">📍</Text>
-                </View>
                 <View className="flex-1">
                   <Text className="text-gray-500 text-xs">Location</Text>
                   <Text className="text-gray-900 font-semibold">
@@ -134,8 +125,6 @@ export default function ProfileScreen() {
               </View>
             </View>
           </View>
-
-       
         </View>
 
         <Modal
@@ -224,9 +213,9 @@ export default function ProfileScreen() {
 
                 <Pressable
                   onPress={() => setModalVisible(false)}
-                  className="bg-gray-100 py-4 rounded-xl items-center active:bg-gray-200"
+                  className="bg-red-900 py-4 rounded-xl items-center active:bg-red-800"
                 >
-                  <Text className="text-gray-700 font-bold text-base">
+                  <Text className="text-gray-100 font-bold text-base">
                     Cancel
                   </Text>
                 </Pressable>
