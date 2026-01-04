@@ -1,13 +1,14 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
-    Image,
-    Modal,
-    Pressable,
-    ScrollView,
-    Text,
-    TextInput,
-    View,
+  Image,
+  Modal,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -18,6 +19,25 @@ export default function ProfileScreen() {
   const [email, setEmail] = useState("abdurrahman@example.com");
   const [phone, setPhone] = useState("+880 1234-567890");
   const [location, setLocation] = useState("Dhaka, Bangladesh");
+
+  useEffect(() => {
+    const loadProfileData = async () => {
+      try {
+        const storedData = await AsyncStorage.getItem('profileData');
+        if (storedData) {
+          const profileData = JSON.parse(storedData);
+          setName(profileData.name || "Abdur Rahman");
+          setEmail(profileData.email || "abdurrahman@example.com");
+          setPhone(profileData.phone || "+880 1234-567890");
+          setLocation(profileData.location || "Dhaka, Bangladesh");
+          setAvatar(profileData.avatar || null);
+        }
+      } catch (error) {
+        console.error('Error loading profile data:', error);
+      }
+    };
+    loadProfileData();
+  }, []);
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -38,12 +58,25 @@ export default function ProfileScreen() {
     }
   };
 
-  const saveProfile = () => {
+  const saveProfile = async () => {
     if (!name || !email) {
       alert("Please fill all required fields!");
       return;
     }
-    setModalVisible(false);
+    try {
+      const profileData = {
+        name,
+        email,
+        phone,
+        location,
+        avatar,
+      };
+      await AsyncStorage.setItem('profileData', JSON.stringify(profileData));
+      setModalVisible(false);
+    } catch (error) {
+      console.error('Error saving profile data:', error);
+      alert('Failed to save profile data');
+    }
   };
 
   return (
