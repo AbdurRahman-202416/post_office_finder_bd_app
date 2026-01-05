@@ -1,9 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Tabs } from "expo-router";
-import { Text } from "react-native";
+import { StatusBar, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "react-native-web";
+
 import "../global.css";
 
 const queryClient = new QueryClient();
@@ -11,11 +11,11 @@ const queryClient = new QueryClient();
 export default function TabLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <SafeAreaView className="flex-1" edges={["top", "bottom"]}>
+      <SafeAreaView className="flex-1 bg-[#6d0107]" edges={["bottom", "top"]}>
         <StatusBar
-          style="light"
+          backgroundColor="#6d0107"
+          barStyle="default"
           translucent={false}
-         
         />
 
         <Tabs
