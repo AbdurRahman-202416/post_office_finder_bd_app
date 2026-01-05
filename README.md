@@ -14,7 +14,7 @@ A mobile application for finding post office locations and details across Bangla
 ## Tech Stack
 
 - React Native with Expo
-- TypeScript / JavaScript
+- TypeScript
 - NativeWind for styling (Tailwind CSS)
 - Expo Router for navigation
 - Axios for HTTP requests
@@ -24,16 +24,16 @@ A mobile application for finding post office locations and details across Bangla
 
 ```
 app/
-├── _layout.jsx              # Root layout
+├── _layout.tsx              # Root layout
 ├── (tabs)/                  # Tab navigation group
-│   ├── _layout.jsx          # Tab layout configuration
-│   ├── index.jsx            # Home screen - postal code search
-│   ├── profile.jsx          # Profile screen - user management
-│   └── about.jsx            # About screen
+│   ├── _layout.tsx          # Tab layout configuration
+│   ├── index.tsx            # Home screen - postal code search
+│   ├── profile.tsx          # Profile screen - user management
+│   └── about.tsx            # About screen
 ├── components/              # Reusable components
-│   └── Loading.jsx          # Loading spinner component
+│   └── Loading.tsx          # Loading spinner component
 ├── services/                # API services
-│   └── api.js               # HTTP client configuration
+│   └── api.ts               # HTTP client configuration
 └── global.css               # Global styles
 ```
 
@@ -57,7 +57,7 @@ app/
 
 ## API Integration
 
-The app uses the Zippopotam.us API to fetch post office data for Bangladesh. The API endpoint is configured in `app/services/api.js`.
+The app uses the Zippopotam.us API to fetch post office data for Bangladesh. The API endpoint is configured in `app/services/api.ts`.
 
 Example usage:
 - Search postal code "10000" to get post offices in Dhaka area

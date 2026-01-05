@@ -2,23 +2,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
 import {
-  Image,
-  Modal,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
+    Image,
+    Modal,
+    Pressable,
+    ScrollView,
+    Text,
+    TextInput,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ProfileScreen() {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [avatar, setAvatar] = useState(null);
-  const [name, setName] = useState("Abdur Rahman");
-  const [email, setEmail] = useState("abdurrahman@example.com");
-  const [phone, setPhone] = useState("+880 1234-567890");
-  const [location, setLocation] = useState("Dhaka, Bangladesh");
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [name, setName] = useState<string>("Abdur Rahman");
+  const [email, setEmail] = useState<string>("abdurrahman@example.com");
+  const [phone, setPhone] = useState<string>("+880 1234-567890");
+  const [location, setLocation] = useState<string>("Dhaka, Bangladesh");
 
   useEffect(() => {
     const loadProfileData = async () => {

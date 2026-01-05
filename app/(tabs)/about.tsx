@@ -1,22 +1,27 @@
 import {
-  Image,
-  Linking,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
+    Image,
+    Linking,
+    Pressable,
+    ScrollView,
+    Text,
+    View,
 } from "react-native";
 
 const PROFILE_IMAGE = require("../../assets/images/shanto.jpeg");
 
+interface SocialLink {
+  platform: string;
+  url: string;
+}
+
 const AboutDeveloperScreen = () => {
-  const handleLinkPress = (url) => {
+  const handleLinkPress = (url: string) => {
     Linking.openURL(url).catch((err) =>
       console.error("Failed to open URL:", err)
     );
   };
 
-  const socialLinks = [
+  const socialLinks: SocialLink[] = [
     {
       platform: "GitHub",
       url: "https://github.com/AbdurRahman-202416",

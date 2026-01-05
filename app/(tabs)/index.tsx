@@ -15,25 +15,40 @@ import httpRequest from "../services/api";
 
 const mapImgUrl = require("../../assets/images/bdMap.png");
 
-const fetchPostOffice = async (postalCode) => {
+interface Place {
+  "place name": string;
+  longitude: string;
+  state: string;
+  "state abbreviation": string;
+  latitude: string;
+}
+
+interface PostOfficeData {
+  "post code": string;
+  country: string;
+  "country abbreviation": string;
+  places: Place[];
+}
+
+const fetchPostOffice = async (postalCode: string): Promise<PostOfficeData> => {
   if (!postalCode) throw new Error("Postal code is required");
   const response = await httpRequest.get(encodeURIComponent(postalCode));
   return response.data;
 };
 
 const HomeScreen = () => {
-  const [search, setSearch] = useState("");
-  const [queryKey, setQueryKey] = useState(null); // dynamic query key
+  const [search, setSearch] = useState<string>("");
+  const [queryKey, setQueryKey] = useState<string | null>(null); // dynamic query key
 
   // TanStack Query
-  const { data, isLoading, isError, error, refetch } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery<PostOfficeData>({
     queryKey: ["postOffice", queryKey],
-    queryFn: () => fetchPostOffice(queryKey),
+    queryFn: () => fetchPostOffice(queryKey!),
     enabled: !!queryKey,
     retry: false,
   });
 
-  const handleInputChange = (value) => {
+  const handleInputChange = (value: string) => {
     if (/^\d*$/.test(value)) {
       setSearch(value);
     }
@@ -44,6 +59,12 @@ const HomeScreen = () => {
     Keyboard.dismiss();
     setQueryKey(search.trim());
     refetch();
+  };
+
+  const handleRefetch = () => {
+    if (queryKey) {
+      refetch();
+    }
   };
 
   // Loading state
@@ -141,9 +162,17 @@ const HomeScreen = () => {
 
             {/* Places List */}
             <View className="bg-white rounded-b-2xl shadow-lg p-4">
-              <Text className="text-lg font-bold text-gray-800 mb-4 px-2">
-                Locations <Text className="text-green-700">({data?.places?.length || 0})</Text>
-              </Text>
+              <View className="flex-row justify-between items-center mb-4 px-2">
+                <Text className="text-lg font-bold text-gray-800">
+                  Locations <Text className="text-green-700">({data?.places?.length || 0})</Text>
+                </Text>
+                <Pressable
+                  onPress={handleRefetch}
+                  className="bg-blue-500 py-2 px-4 rounded-lg"
+                >
+                  <Text className="text-white font-semibold">Refresh</Text>
+                </Pressable>
+              </View>
 
               {data?.places?.map((place, index) => (
                 <View
