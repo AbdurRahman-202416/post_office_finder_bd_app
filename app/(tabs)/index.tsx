@@ -41,12 +41,14 @@ const HomeScreen = () => {
   const [queryKey, setQueryKey] = useState<string | null>(null); // dynamic query key
 
   // TanStack Query
-  const { data, isLoading, isError, error, refetch } = useQuery<PostOfficeData>({
-    queryKey: ["postOffice", queryKey],
-    queryFn: () => fetchPostOffice(queryKey!),
-    enabled: !!queryKey,
-    retry: false,
-  });
+  const { data, isLoading, isError, error, refetch } = useQuery<PostOfficeData>(
+    {
+      queryKey: ["postOffice", queryKey],
+      queryFn: () => fetchPostOffice(queryKey!),
+      enabled: !!queryKey,
+      retry: false,
+    }
+  );
 
   const handleInputChange = (value: string) => {
     if (/^\d*$/.test(value)) {
@@ -67,8 +69,8 @@ const HomeScreen = () => {
     }
   };
 
-  // Loading state
-  if (isLoading) return <LoadingComponent />;
+  // // Loading state
+  // if (isLoading) return <LoadingComponent />;
 
   return (
     <ScrollView
@@ -77,7 +79,7 @@ const HomeScreen = () => {
       className="flex-1 bg-slate-50"
     >
       {/* Header */}
-      <View className="bg-green-800 pt-12 pb-8 px-6 rounded-b-3xl shadow-4xl shadow-black/20">
+      <View className="bg-[#6d0107] pt-12 pb-8 px-6 rounded-b-3xl shadow-4xl shadow-black/20">
         <Text className="text-white text-3xl font-bold text-center">
           Post Office Finder
         </Text>
@@ -86,9 +88,9 @@ const HomeScreen = () => {
         </Text>
       </View>
 
-      <View className="px-5 mt-6">
+      <View className="px-5 mt-3 pb-10">
         {/* Search Card */}
-        <View className="bg-white rounded-2xl p-6 shadow-lg border-l-4 border-red-600">
+        <View className="bg-white rounded-2xl p-6 shadow-lg shadow-slate-500 border-l-8 border-red-800">
           <Text className="text-gray-700 font-semibold mb-3">
             Enter Postal Code
           </Text>
@@ -104,9 +106,11 @@ const HomeScreen = () => {
 
           <Pressable
             onPress={handleSearch}
-            className="bg-[#6d0107] py-4 rounded-xl items-center active:bg-red-700 shadow-md"
+            className={`bg-[#6d0107] py-4 rounded-xl items-center active:bg-red-700 shadow-md ${isLoading ? "opacity-70 py-[18px] bg-black" : "opacity-100"}`}
           >
-            <Text className="text-white font-bold text-base">Search</Text>
+            <Text className="text-white font-bold text-base">
+              {isLoading ? <LoadingComponent /> : "Search"}
+            </Text>
           </Pressable>
         </View>
 
@@ -145,6 +149,7 @@ const HomeScreen = () => {
         )}
 
         {/* Results */}
+
         {data && (
           <View className="mt-6 mb-8">
             {/* Header Card */}
@@ -164,11 +169,14 @@ const HomeScreen = () => {
             <View className="bg-white rounded-b-2xl shadow-lg p-4">
               <View className="flex-row justify-between items-center mb-4 px-2">
                 <Text className="text-lg font-bold text-gray-800">
-                  Locations <Text className="text-green-700">({data?.places?.length || 0})</Text>
+                  Locations{" "}
+                  <Text className="text-green-700">
+                    ({data?.places?.length || 0})
+                  </Text>
                 </Text>
                 <Pressable
                   onPress={handleRefetch}
-                  className="bg-blue-500 py-2 px-4 rounded-lg"
+                  className="bg-[#6d0107] py-1 px-4 rounded-lg"
                 >
                   <Text className="text-white font-semibold">Refresh</Text>
                 </Pressable>
@@ -193,7 +201,9 @@ const HomeScreen = () => {
                     </View>
 
                     <View className="bg-white rounded-lg p-3">
-                      <Text className="text-gray-600 text-sm mb-1">Coordinates</Text>
+                      <Text className="text-gray-600 text-sm mb-1">
+                        Coordinates
+                      </Text>
                       <Text className="text-gray-800 font-mono text-xs">
                         Lat: {place.latitude}
                       </Text>
