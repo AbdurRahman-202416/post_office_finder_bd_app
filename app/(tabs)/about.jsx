@@ -1,10 +1,10 @@
 import {
-    Image,
-    Linking,
-    Pressable,
-    ScrollView,
-    Text,
-    View,
+  Image,
+  Linking,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
 } from "react-native";
 
 const PROFILE_IMAGE = require("../../assets/images/shanto.jpeg");
@@ -23,11 +23,11 @@ const AboutDeveloperScreen = () => {
     },
     {
       platform: "LinkedIn",
-      url: "https://linkedin.com/in/abdurrahman",
+      url: "https://www.linkedin.com/in/abdur-rahman-cse2024/",
     },
     {
       platform: "Email",
-      url: "mailto:abdurrahman@example.com",
+      url: "mailto:abdurrahman19011@gmail.com",
     },
   ];
 
