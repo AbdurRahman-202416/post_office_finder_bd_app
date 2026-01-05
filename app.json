@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "Post Office Finder",
+    "slug": "post-office-finder",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "postofficefinder",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
