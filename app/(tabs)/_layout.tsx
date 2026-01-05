@@ -35,13 +35,13 @@ export default function TabLayout() {
                 <Ionicons
                   name="home-outline"
                   size={focused ? size + 6 : size}
-                  color={focused ? "#3b82f6" : "#ffffff"}
+                  color={focused ? "#18bfed" : "#ffffff"}
                 />
               ),
               tabBarLabel: ({ focused }) => (
                 <Text
                   className={`text-sm ${
-                    focused ? "font-bold text-blue-500" : "text-gray-300"
+                    focused ? "font-bold text-[#18bfed]" : "text-gray-300"
                   }`}
                 >
                   Home
@@ -59,13 +59,13 @@ export default function TabLayout() {
                 <Ionicons
                   name="person-outline"
                   size={focused ? size + 6 : size}
-                  color={focused ? "#3b82f6" : "#ffffff"}
+                  color={focused ? "#18bfed" : "#ffffff"}
                 />
               ),
               tabBarLabel: ({ focused }) => (
                 <Text
                   className={`text-sm ${
-                    focused ? "font-bold text-blue-500" : "text-gray-300"
+                    focused ? "font-bold text-[#18bfed]" : "text-gray-300"
                   }`}
                 >
                   Profile
@@ -83,13 +83,13 @@ export default function TabLayout() {
                 <Ionicons
                   name="information-circle-outline"
                   size={focused ? size + 6 : size}
-                  color={focused ? "#3b82f6" : "#ffffff"}
+                  color={focused ? "#18bfed" : "#ffffff"}
                 />
               ),
               tabBarLabel: ({ focused }) => (
                 <Text
                   className={`text-sm ${
-                    focused ? "font-bold text-blue-500" : "text-gray-300"
+                    focused ? "font-bold text-[#18bfed]" : "text-gray-300"
                   }`}
                 >
                   About
