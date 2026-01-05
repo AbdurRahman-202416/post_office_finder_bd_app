@@ -65,7 +65,7 @@ const LoadingComponent = () => {
   });
 
   return (
-    <View className="flex-row gap-2 h-screen items-center justify-center py-4">
+    <View className="flex-row gap-2 h-full items-center justify-center ">
       <Animated.View
         style={[
           animatedStyle(dot1, "#1e40af"),
