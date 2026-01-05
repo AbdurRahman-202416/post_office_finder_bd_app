@@ -79,7 +79,7 @@ const HomeScreen = () => {
       className="flex-1 bg-slate-50"
     >
       {/* Header */}
-      <View className="bg-[#6d0107] pt-12 pb-8 px-6 rounded-b-3xl shadow-4xl shadow-black/20">
+      <View className="bg-[#6d0107] pt-8 pb-8 px-6 rounded-b-3xl shadow-4xl shadow-black/20">
         <Text className="text-white text-3xl font-bold text-center">
           Post Office Finder
         </Text>
@@ -90,7 +90,7 @@ const HomeScreen = () => {
 
       <View className="px-5 mt-3 pb-10">
         {/* Search Card */}
-        <View className="bg-white rounded-2xl p-6 shadow-lg shadow-slate-500 border-l-8 border-red-800">
+        <View className="bg-white rounded-2xl p-6 shadow-lg shadow-slate-900 border-t-2 border-l-8 border-red-800">
           <Text className="text-gray-700 font-semibold mb-3">
             Enter Postal Code
           </Text>
@@ -106,7 +106,7 @@ const HomeScreen = () => {
 
           <Pressable
             onPress={handleSearch}
-            className={`bg-[#6d0107] py-4 rounded-xl items-center active:bg-red-700 shadow-md ${isLoading ? "opacity-70 py-[18px] bg-black" : "opacity-100"}`}
+            className={`bg-[#6d0107] py-4 rounded-xl items-center active:bg-red-700 shadow-md ${isLoading ? " py-[18px] bg-white border-1 border-[#6d0107]" : "opacity-100"}`}
           >
             <Text className="text-white font-bold text-base">
               {isLoading ? <LoadingComponent /> : "Search"}
@@ -155,10 +155,10 @@ const HomeScreen = () => {
             {/* Header Card */}
             <View className="bg-gradient-to-r from-green-900 to-green-700 text-black rounded-t-2xl p-6">
               <Text className="text-black text-2xl font-bold mb-2">
-                {data["post code"]}
+               Post Code: {data["post code"]}
               </Text>
               <View className="flex-row items-center">
-                <View className="bg-white/20 rounded-lg px-3 py-1">
+                <View className="bg-white/20 rounded-lg  py-1">
                   <Text className="font-semibold">{data.country}</Text>
                 </View>
                 <Text className="ml-2">({data["country abbreviation"]})</Text>
