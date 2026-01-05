@@ -12,11 +12,7 @@ export default function TabLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaView className="flex-1 bg-[#6d0107]" edges={["bottom", "top"]}>
-        <StatusBar
-          backgroundColor="#6d0107"
-          barStyle="default"
-          translucent={false}
-        />
+        <StatusBar backgroundColor="#6d0107" barStyle="default" />
 
         <Tabs
           screenOptions={{
