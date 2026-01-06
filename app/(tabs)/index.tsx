@@ -85,10 +85,6 @@ const HomeScreen = () => {
     refetch();
   };
 
-  const handleRefetch = () => {
-    if (queryKey) refetch();
-  };
-
   const openGoogleMaps = (latitude: string, longitude: string) => {
     const url = `https://maps.google.com/?q=${latitude},${longitude}`;
 
@@ -222,7 +218,7 @@ const HomeScreen = () => {
           {data && (
             <View className="mt-6 mb-8">
               {/* Header */}
-              <View className="bg-green-700 rounded-t-2xl p-6">
+              <View className="bg-green-700 border-l-8 border-red-800 rounded-t-2xl p-6">
                 <Text className="text-white text-2xl font-bold mb-1">
                   Post Code: {data["post code"]}
                 </Text>
@@ -232,18 +228,11 @@ const HomeScreen = () => {
               </View>
 
               {/* List */}
-              <View className="bg-white rounded-b-2xl shadow-lg p-4">
+              <View className="bg-white border-l-8 border-red-800 rounded-b-2xl shadow-lg p-4">
                 <View className="flex-row justify-between items-center mb-4">
                   <Text className="text-lg font-bold text-gray-800">
                     Locations ({data.places.length})
                   </Text>
-
-                  <Pressable
-                    onPress={handleRefetch}
-                    className="bg-[#6d0107] px-4 py-1 rounded-lg"
-                  >
-                    <Text className="text-white font-semibold">Refresh</Text>
-                  </Pressable>
                 </View>
 
                 {data.places.map((place, index) => (
@@ -267,7 +256,7 @@ const HomeScreen = () => {
                       onPress={() =>
                         openGoogleMaps(place.latitude, place.longitude)
                       }
-                      className="bg-blue-500 rounded-lg py-2 mt-3 items-center"
+                      className="bg-gray-500 rounded-lg py-2 mt-3 items-center"
                     >
                       <Text className="text-white font-semibold">
                         ⛳ View Map in Web
@@ -281,7 +270,7 @@ const HomeScreen = () => {
                           console.log("Google Maps app not available");
                         });
                       }}
-                      className="bg-green-600 rounded-lg py-2 mt-2 items-center"
+                      className="bg-green-800 rounded-lg py-2 mt-2 items-center"
                     >
                       <Text className="text-white font-semibold">
                         ➤ Open in Google Maps App

@@ -1,10 +1,10 @@
 import {
-    Image,
-    Linking,
-    Pressable,
-    ScrollView,
-    Text,
-    View,
+  Image,
+  Linking,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
 } from "react-native";
 
 const PROFILE_IMAGE = require("../../assets/images/shanto.jpeg");
@@ -61,29 +61,14 @@ const AboutDeveloperScreen = () => {
             Abdur Rahman
           </Text>
           <Text className="text-blue-200 text-sm">Software Developer</Text>
-          <Text className="text-blue-300 text-sm mt-1">
-            Dhaka, Bangladesh
-          </Text>
+          <Text className="text-blue-300 text-sm mt-1">Dhaka, Bangladesh</Text>
         </View>
       </View>
 
       <View className="px-6 py-6">
-      
-
-        {/* Skills */}
-        <View className="bg-white rounded-xl p-6 shadow-sm mb-4">
-          <Text className="font-bold text-gray-900 mb-3">Skills</Text>
-          <Text className="text-gray-700 leading-6">
-            React • Next.js • TypeScript • React Native • TanStack Query •
-            Zustand • Tailwind CSS • Node.js • WebAuthn
-          </Text>
-        </View>
-
-      
-
         {/* Connect */}
         <View className="bg-white rounded-xl p-6 shadow-sm mb-6">
-          <Text className="font-bold text-gray-900 mb-4">Connect</Text>
+          <Text className="font-bold text-gray-900 mb-4">Connect With Me</Text>
           {socialLinks.map((link, index) => (
             <Pressable
               key={index}
