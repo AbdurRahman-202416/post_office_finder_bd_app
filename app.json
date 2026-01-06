@@ -3,15 +3,30 @@
     "name": "Post Office Finder",
     "slug": "post-office-finder",
     "version": "1.0.0",
+    "description": "Find post office locations and details across Bangladesh by postal code",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "postofficefinder",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.abdurrahman.postofficefinder",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app needs your location to show nearby post offices and help you navigate.",
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photo library to let you choose a profile picture.",
+        "NSCameraUsageDescription": "This app needs camera access to take profile pictures."
+      }
     },
     "android": {
+      "package": "com.abdurrahman.postofficefinder",
+      "versionCode": 1,
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/icon.png",
@@ -44,6 +59,17 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "your-project-id-here"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/your-project-id-here"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }

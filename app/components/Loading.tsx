@@ -7,7 +7,7 @@ const LoadingComponent = () => {
   const dot3 = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    const createAnimation = (animatedValue, delay) => {
+    const createAnimation = (animatedValue: Animated.Value, delay: number) => {
       return Animated.loop(
         Animated.sequence([
           Animated.delay(delay),
@@ -42,7 +42,7 @@ const LoadingComponent = () => {
     };
   }, [dot1, dot2, dot3]);
 
-  const animatedStyle = (animatedValue, color) => ({
+  const animatedStyle = (animatedValue: Animated.Value, color: string) => ({
     transform: [
       {
         scale: animatedValue.interpolate({

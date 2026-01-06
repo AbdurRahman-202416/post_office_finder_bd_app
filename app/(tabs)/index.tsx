@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ImageBackground,
   Keyboard,
   Linking,
   Modal,
   Pressable,
+  RefreshControl,
   ScrollView,
   Text,
   TextInput,
@@ -12,37 +13,43 @@ import {
 } from "react-native";
 
 import { useQuery } from "@tanstack/react-query";
+import * as Haptics from "expo-haptics";
 import * as Location from "expo-location";
 
 import { WebView } from "react-native-webview";
 
 import LoadingComponent from "../components/Loading";
+import OfflineBanner from "../components/OfflineBanner";
+import { useNetworkStatus } from "../hooks/useNetworkStatus";
 import httpRequest from "../services/api";
+import { SearchCache } from "../services/storage";
+import type { CachedSearchResult, PostOfficeData } from "../types/api";
 
 const mapImgUrl = require("../../assets/images/bdMap.png");
-
-/* ================= TYPES ================= */
-
-interface Place {
-  "place name": string;
-  longitude: string;
-  state: string;
-  "state abbreviation": string;
-  latitude: string;
-}
-
-interface PostOfficeData {
-  "post code": string;
-  country: string;
-  "country abbreviation": string;
-  places: Place[];
-}
 
 /* ================= API ================= */
 
 const fetchPostOffice = async (postalCode: string): Promise<PostOfficeData> => {
   if (!postalCode) throw new Error("Postal code is required");
-  const response = await httpRequest.get(postalCode);
+  
+  // Try to get from cache first
+  const cached = await SearchCache.get(postalCode);
+  if (cached) {
+    console.log("Using cached data for:", postalCode);
+    return cached.data;
+  }
+
+  // Fetch from API
+  const response = await httpRequest.get<PostOfficeData>(postalCode);
+  
+  // Cache the result
+  const cacheData: CachedSearchResult = {
+    postalCode,
+    data: response.data,
+    timestamp: Date.now(),
+  };
+  await SearchCache.save(cacheData);
+  
   return response.data;
 };
 
@@ -51,6 +58,7 @@ const fetchPostOffice = async (postalCode: string): Promise<PostOfficeData> => {
 const HomeScreen = () => {
   const [search, setSearch] = useState("");
   const [queryKey, setQueryKey] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Map modal state
   const [mapVisible, setMapVisible] = useState(false);
@@ -59,35 +67,52 @@ const HomeScreen = () => {
   // Current location
   const [userLocation, setUserLocation] = useState<string | null>(null);
 
+  // Network status
+  const { isOffline } = useNetworkStatus();
+
   /* ===== React Query ===== */
 
-  const { data, isLoading, isError, error, refetch } = useQuery<PostOfficeData>(
-    {
-      queryKey: ["postOffice", queryKey],
-      queryFn: () => fetchPostOffice(queryKey!),
-      enabled: !!queryKey,
-      retry: false,
-    }
-  );
+  const { data, isLoading, isError, error, refetch } = useQuery<PostOfficeData>({
+    queryKey: ["postOffice", queryKey],
+    queryFn: () => fetchPostOffice(queryKey!),
+    enabled: !!queryKey,
+    retry: 2, // Retry failed requests twice
+    staleTime: 1000 * 60 * 5, // Consider data fresh for 5 minutes
+    gcTime: 1000 * 60 * 30, // Keep in cache for 30 minutes (formerly cacheTime)
+  });
 
   /* ===== Handlers ===== */
 
   const handleInputChange = (value: string) => {
+    // Only allow numeric input
     if (/^\d*$/.test(value)) {
       setSearch(value);
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     if (!search.trim()) return;
+    
+    // Haptic feedback on search
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    
     Keyboard.dismiss();
     setQueryKey(search.trim());
-    refetch();
-  };
+  }, [search]);
+
+  const handleRefresh = useCallback(async () => {
+    if (!queryKey) return;
+    
+    setRefreshing(true);
+    // Clear cache for this postal code
+    await SearchCache.remove(queryKey);
+    await refetch();
+    setRefreshing(false);
+  }, [queryKey, refetch]);
 
   const openGoogleMaps = (latitude: string, longitude: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     const url = `https://maps.google.com/?q=${latitude},${longitude}`;
-
     setMapUrl(url);
     setMapVisible(true);
   };
@@ -132,9 +157,17 @@ const HomeScreen = () => {
 
   return (
     <>
+      <OfflineBanner isVisible={isOffline} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         className="flex-1 bg-slate-50"
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            enabled={!!data && !isOffline}
+          />
+        }
       >
         {/* ===== Header ===== */}
         <View className="bg-[#6d0107] pt-8 pb-8 px-6 rounded-b-3xl shadow-black/20">

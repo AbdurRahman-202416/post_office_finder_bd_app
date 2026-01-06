@@ -1,15 +1,17 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
 import {
-  Image,
-  Modal,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
+    Alert,
+    Image,
+    Modal,
+    Pressable,
+    ScrollView,
+    Text,
+    TextInput,
+    View,
 } from "react-native";
+import { ProfileStorage } from "../services/storage";
+import type { ProfileData } from "../types/api";
 
 export default function ProfileScreen() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -21,60 +23,87 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     const loadProfileData = async () => {
-      try {
-        const storedData = await AsyncStorage.getItem("profileData");
-        if (storedData) {
-          const profileData = JSON.parse(storedData);
-          setName(profileData.name || "Abdur Rahman");
-          setEmail(profileData.email || "abdurrahman@example.com");
-          setPhone(profileData.phone || "+880 1234-567890");
-          setLocation(profileData.location || "Dhaka, Bangladesh");
-          setAvatar(profileData.avatar || null);
-        }
-      } catch (error) {
-        console.error("Error loading profile data:", error);
+      const profileData = await ProfileStorage.get();
+      if (profileData) {
+        setName(profileData.name || "Abdur Rahman");
+        setEmail(profileData.email || "abdurrahman@example.com");
+        setPhone(profileData.phone || "+880 1234-567890");
+        setLocation(profileData.location || "Dhaka, Bangladesh");
+        setAvatar(profileData.avatar || null);
       }
     };
     loadProfileData();
   }, []);
 
   const pickImage = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== "granted") {
-      alert("Camera permission is required!");
-      return;
-    }
+    try {
+      // Request permission
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "Permission Required",
+          "Please grant photo library access to change your profile picture."
+        );
+        return;
+      }
 
-    let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.7,
-    });
+      // Launch image picker
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.7, // Compress image for better performance
+      });
 
-    if (!result.cancelled) {
-      setAvatar(result.assets[0].uri);
+      // Check if user didn't cancel (fixed deprecated 'cancelled' to 'canceled')
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        setAvatar(result.assets[0].uri);
+      }
+    } catch (error) {
+      console.error("Error picking image:", error);
+      Alert.alert("Error", "Failed to pick image. Please try again.");
     }
   };
 
   const saveProfile = async () => {
-    if (!name || !email) {
-      alert("Please fill all required fields!");
+    // Validate required fields
+    if (!name.trim()) {
+      Alert.alert("Validation Error", "Please enter your name.");
       return;
     }
+    
+    if (!email.trim()) {
+      Alert.alert("Validation Error", "Please enter your email.");
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert("Validation Error", "Please enter a valid email address.");
+      return;
+    }
+
     try {
-      const profileData = {
-        name,
-        email,
-        phone,
-        location,
+      const profileData: ProfileData = {
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+        location: location.trim(),
         avatar,
       };
-      await AsyncStorage.setItem("profileData", JSON.stringify(profileData));
-      setModalVisible(false);
+      
+      const success = await ProfileStorage.save(profileData);
+      
+      if (success) {
+        setModalVisible(false);
+        Alert.alert("Success", "Profile updated successfully!");
+      } else {
+        Alert.alert("Error", "Failed to save profile data. Please try again.");
+      }
     } catch (error) {
       console.error("Error saving profile data:", error);
-      alert("Failed to save profile data");
+      Alert.alert("Error", "An unexpected error occurred. Please try again.");
     }
   };
 
